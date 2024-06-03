@@ -23,14 +23,21 @@ jobs:
     - name: Build executable
       run: |
         pyinstaller --onefile extract_pdf_info.py
+        echo "PyInstaller build step finished with code $?"
+        if [ $? -ne 0 ]; then
+          echo "PyInstaller build failed"
+          exit 1
+        fi
       shell: bash
 
     - name: List files for debug
       run: |
+        echo "Listing contents of dist and build directories"
         ls -alh dist/
         ls -alh build/
 
     - name: Upload executable
+      if: success()
       uses: actions/upload-artifact@v3
       with:
         name: executable
