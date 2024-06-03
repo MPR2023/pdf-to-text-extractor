@@ -23,9 +23,15 @@ jobs:
     - name: Build executable
       run: |
         pyinstaller --onefile extract_pdf_info.py
+      shell: bash
+
+    - name: List files for debug
+      run: |
+        ls -alh dist/
+        ls -alh build/
 
     - name: Upload executable
       uses: actions/upload-artifact@v3
       with:
         name: executable
-        path: dist/extract_pdf_info
+        path: dist/extract_pdf_info*
